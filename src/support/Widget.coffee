@@ -31,8 +31,8 @@ module.exports = ->
     find: (selector, selector_type="css") ->
       _selector =
         switch selector_type
-          when "linkText" then webdriver.By.linkText(selector)
-          else webdriver.By.css(@_selector(selector))
+          when "linkText" then Driver.By.linkText(selector)
+          else Driver.By.css(@_selector(selector))
       _isPresent = =>
         @driver.isElementPresent(_selector)
 
