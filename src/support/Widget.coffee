@@ -13,8 +13,12 @@ module.exports = ->
     @getter 'driver', ->
       @_driver || World.driver
 
-    click: (selector) ->
-      @find(selector).click()
+    click: (selector, selector_type="css") ->
+      @find(selector, selector_type).click()
+
+    hover: (selector) ->
+      selected = @find(selector)
+      new Driver.ActionSequence(@driver).mouseMove(selected).perform()
 
     fill: (selector, value) ->
       @find(selector).sendKeys(value)
@@ -24,8 +28,11 @@ module.exports = ->
       selected.getAttribute('value').then (value) ->
         value or selected.getText()
 
-    find: (selector) ->
-      _selector  = Driver.By.css(@_selector(selector))
+    find: (selector, selector_type="css") ->
+      _selector =
+        switch selector_type
+          when "linkText" then webdriver.By.linkText(selector)
+          else webdriver.By.css(@_selector(selector))
       _isPresent = =>
         @driver.isElementPresent(_selector)
 
