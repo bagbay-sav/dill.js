@@ -52,16 +52,19 @@ module.exports = ->
         _.extend(@, mixin)
         _.extend(@::, mixin::)
         @
+      writable: true
     getter:
       value: (object, property, getter) ->
         unless getter
           [object, property, getter] = [@::, object, property]
         Object.defineProperty object, property, configurable: true, get: getter
+      writable: true
     setter:
       value: (object, property, setter) ->
         unless setter
           [object, property, getter] = [@::, object, property]
         Object.defineProperty object, property, configurable: true, set: getter
+      writable: true
     accessor:
       value: (object, property) ->
         unless property
@@ -72,6 +75,7 @@ module.exports = ->
             @["_#{property}"]
           set: (v) ->
             @["_#{property}"] = v
+      writable: true
 
   # *********************************************************************************
   #  Load assertion library (with promise extensions)
@@ -113,6 +117,7 @@ module.exports = ->
           else
             deferred.fulfill(results...)
         deferred.promise
+      writable: true
 
   # ********************************************************************************#
   #  Circle CI doesn't seem to like ephemeral ports, and selenium-webdriver doesn't
